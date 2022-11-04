@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .day {
+    @apply text-base py-3 text-center text-[#fbfbfb] font-semibold capitalize bg-[#191919] first:rounded-l-md last:rounded-r-md;
+  }
+
+  .day .date {
+    @apply text-xs font-extralight;
+  }
+
+  .event {
+    @apply block relative w-full mb-2 rounded-md bg-[#1a1a1a] focus:outline-none text-left duration-200;
+  }
+
+  .event .content {
+    @apply p-4 rounded-md bg-opacity-0 hover:bg-opacity-50 bg-black  duration-300;
+  }
+
+  .event .when {
+    @apply text-xs;
+  }
+
+  .event .title {
+    @apply font-black capitalize text-left;
+  }
+
+  .event .info {
+    @apply text-xs capitalize;
+  }
+
+  .event .tag {
+    @apply text-xs py-1 px-2 rounded-md bg-white/20 backdrop-blur-3xl font-thin capitalize;
+  }
+
+  .study {
+    @apply bg-gradient-to-r from-orange-500 via-orange-700 to-orange-800;
+  }
+
+  .work {
+    @apply bg-gradient-to-r from-purple-500 via-purple-700 to-purple-800;
+  }
+
+  .meet {
+    @apply bg-gradient-to-r from-green-500 via-green-700 to-green-800;
+  }
+
+  .opened {
+    @apply z-20 top-0 h-rest;
+  }
+
+  .blinked {
+    @apply hidden duration-200 mb-0;
+  }
+
+  .events {
+    @apply overflow-y-scroll px-2;
+  }
+}
+
+@layer base {
+  * {
+    font-family: 'Creato Display';
+  }
+
+  .cool {
+    font-family: 'Automatic';
+  }
+
+  .root {
+    @apply px-10 bg-[#111] min-h-screen;
+  }
+
+  .h-rest {
+    height: calc(100vh - 10.75rem);
+  }
+}
+
+::-webkit-scrollbar {
+  z-index: 10;
+  width: 0px;
+}
