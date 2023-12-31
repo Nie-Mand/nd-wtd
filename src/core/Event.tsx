@@ -1,9 +1,11 @@
+import { afterLength, format } from '.'
+
 export function Event(props: EventProps) {
   return (
     <>
       {props.open ? (
         <div
-          className="fixed inset-0 z-10 bg-black/50 duration-300"
+          className="fixed inset-0 z-10 bg-black/40 duration-300"
           onClick={props.closure}
         ></div>
       ) : null}
@@ -15,13 +17,30 @@ export function Event(props: EventProps) {
       >
         <div className={`content ${props.open ? 'hover:bg-transparent' : ''}`}>
           <div className="flex space-x-2 items-center justify-between">
-            <span className="when">14h-16h</span>
+            <span className="when">
+              {format(props.at)}-{afterLength(props.at, props.length)}
+            </span>
             {props.tag === 'uncategorized' ? null : (
               <span className="tag">{props.tag.toLowerCase()}</span>
             )}
           </div>
           <h1 className="title">{props.title}</h1>
-          {props.open ? <p className="info">{props.info}</p> : null}
+          {props.open ? (
+            <>
+              <div className="grid">
+                <p className="info">{props.info}</p>
+                <div className="h-10"></div>
+                <a
+                  href="#"
+                  className="bg-white p-2 w-full rounded-md font-bold"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  link
+                </a>
+              </div>
+            </>
+          ) : null}
         </div>
       </button>
     </>
@@ -35,7 +54,7 @@ export interface EventProps {
   length: number
   title: string
   info: string
-  tag: Tags
+  tag: Tags | string
   className?: string
   open?: boolean
   blink?: boolean

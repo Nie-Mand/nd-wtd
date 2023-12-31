@@ -1,131 +1,85 @@
-import { useCallback, useMemo, useState } from 'react'
-import { Event } from './core'
+import { Event, days, useOpenAndBlink, useDates, use8 } from './core'
 
-function useOpenAndBlink() {
-  const [v, setV] = useState<null | number>(null)
-
-  const isBlinked = useCallback(
-    (_v: number) => {
-      if (v === null) return false
-      return _v !== v
-    },
-    [v]
-  )
-
-  const isOpen = useCallback(
-    (_v: number) => {
-      if (v === null) return false
-      return _v === v
-    },
-    [v]
-  )
-
-  const open = useCallback(
-    (_v: number) => {
-      setV(_v)
-    },
-    [setV]
-  )
-
-  const close = useCallback(() => {
-    setV(null)
-  }, [setV])
-
-  return {
-    open,
-    close,
-    isOpen,
-    isBlinked,
-  }
-}
+const data = [
+  {
+    id: 1,
+    is: 'work',
+    title: 'Tiitle',
+    info: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus error suscipit',
+    at: new Date(),
+    length: 4,
+  },
+  {
+    id: 2,
+    is: 'study',
+    title: 'Tiitle',
+    info: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus error suscipit',
+    at: new Date(),
+    length: 4,
+  },
+  {
+    id: 3,
+    is: 'meet',
+    title: 'Tiitle',
+    info: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus error suscipit',
+    at: new Date(),
+    length: 4,
+  },
+]
 
 function App() {
   const handler = useOpenAndBlink()
+  const { weeks, next, previous } = useDates()
+  const events = use8(weeks[0], weeks[6])
 
-  const days = [
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
-    'sunday',
-  ]
+  console.log(events)
 
-  function dayWhen(d: string) {
-    return '06 OCT'
-  }
   return (
     <div className="root">
-      <h1 className="cool text-xl text-white text-center pt-5 pb-5">
-        N1mXnd WhaTTodoos
+      <h1 className="text-xl text-white text-center pt-5 pb-5 flex items-center space-x-2 justify-center">
+        <span className="cool">N1mXnd WhaTTodoos</span>
+        <button
+          onClick={previous}
+          className="text-sm bg-white text-[#1e1e1e] px-2 py-1 rounded-md font-medium"
+        >
+          Previous
+        </button>
+        <button
+          onClick={next}
+          className="text-sm bg-white text-[#1e1e1e] px-2 py-1 rounded-md font-medium"
+        >
+          Next
+        </button>
       </h1>
-      <div className="grid grid-cols-7 rounded-md ">
-        {days.map(d => (
-          <div key={d} className="day">
-            <div className="date">{dayWhen(d)}</div>
-            {d}
-          </div>
-        ))}
-      </div>
-      <div className="my-5 text-white divide-x grid grid-cols-7 divide-[#1e1e1e] h-rest">
-        <div className="events">
-          <Event
-            tag="study"
-            title="Tiitle"
-            info="Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
-            error suscipit"
-            at={new Date()}
-            length={4}
-            open={handler.isOpen(1)}
-            blink={handler.isBlinked(1)}
-            onClick={() => handler.open(1)}
-            closure={handler.close}
-          />
-          <Event
-            tag="work"
-            title="Tiitle"
-            info="Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
-            error suscipit"
-            at={new Date()}
-            length={4}
-            open={handler.isOpen(2)}
-            blink={handler.isBlinked(2)}
-            onClick={() => handler.open(2)}
-            closure={handler.close}
-          />
-          <Event
-            tag="meet"
-            title="Tiitle"
-            info="Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
-            error suscipit"
-            at={new Date()}
-            length={4}
-            open={handler.isOpen(3)}
-            blink={handler.isBlinked(3)}
-            onClick={() => handler.open(3)}
-            closure={handler.close}
-          />
+      <div className="snap-x">
+        <div className="grid grid-cols-7 rounded-md">
+          {days.map(d => (
+            <div key={d} className="day">
+              <div className="date">{weeks[d]}</div>
+              {d}
+            </div>
+          ))}
         </div>
-        <div className="events">
-          <Event
-            tag="uncategorized"
-            title="Tiitle"
-            info="Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
-            error suscipit"
-            at={new Date()}
-            length={4}
-            open={handler.isOpen(4)}
-            blink={handler.isBlinked(4)}
-            onClick={() => handler.open(4)}
-            closure={handler.close}
-          />
+        <div className="my-5 text-white divide-x grid grid-cols-7 divide-[#1e1e1e] h-rest">
+          {days.map(d => (
+            <div className="events" key={d}>
+              {data.map(d => (
+                <Event
+                  key={d.id}
+                  tag={d.is}
+                  title={d.title}
+                  info={d.info}
+                  at={d.at}
+                  length={d.length}
+                  open={handler.isOpen(d.id)}
+                  blink={handler.isBlinked(d.id)}
+                  onClick={() => handler.open(d.id)}
+                  closure={handler.close}
+                />
+              ))}
+            </div>
+          ))}
         </div>
-        <div className="events"></div>
-        <div className="events"></div>
-        <div className="events"></div>
-        <div className="events"></div>
-        <div className="events"></div>
       </div>
     </div>
   )

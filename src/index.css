@@ -35,16 +35,31 @@
     @apply text-xs py-1 px-2 rounded-md bg-white/20 backdrop-blur-3xl font-thin capitalize;
   }
 
+  .event a {
+    @apply text-[#1a1a1a];
+  }
+
   .study {
     @apply bg-gradient-to-r from-orange-500 via-orange-700 to-orange-800;
   }
 
+  .study a {
+    @apply text-orange-500;
+  }
+
   .work {
-    @apply bg-gradient-to-r from-purple-500 via-purple-700 to-purple-800;
+    @apply bg-gradient-to-r from-indigo-500 via-indigo-700 to-indigo-800;
+  }
+  .work a {
+    @apply text-indigo-500;
   }
 
   .meet {
     @apply bg-gradient-to-r from-green-500 via-green-700 to-green-800;
+  }
+
+  .meet a {
+    @apply text-green-500;
   }
 
   .opened {
